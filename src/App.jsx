@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
+import { useFilters } from "./hooks/useFilters";
 import Products from "./components/Products";
 import Header from "./components/Header";
 
 function App() {
+  // Estado para guardar los productos iniciales.
   const [productos, setProductos] = useState([]);
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-  });
 
   // useEffect para cargar los productos tan pronto iniciar la app.
   useEffect(() => {
@@ -18,24 +16,15 @@ function App() {
       });
   }, []);
 
-  // Función o método para filtrar (filterProducts).
-  // La función devolverá un filter del array con todos los productos. Dicho filter tendrá que cumplir con 2 validaciones: la primera es que el precio debe ser mayor o igual al precio mínimo (por defecto es 0 para mostrarlos a todos) y que la categoría del filtro sea 'all' (los muestra a todos) o, en su defecto, que la categoría sea igual a la que está seleccionada en el filtro. Cuando todo eso de 'true', el producto pasará el filtro y será visible.
-
-  const filterProducts = (products) => {
-    return products.filter((product) => {
-      return (
-        product.price >= filters.minPrice &&
-        (filters.category === "all" || product.category === filters.category)
-      );
-    });
-  };
-
-  // Ejecutamos nuestro método y se lo pasamos al componente de Products.
+  // Extraemos lo que nos retorna el Custom Hook (los productos filtrados y la función para actualizar los filtros).
+  const { filterProducts, setFilters } = useFilters();
+  // Guardamos en una constante los productos filtrados ejecutando el método 'filterProducts' para pasarselo al componente de Products.
   const filteredProducts = filterProducts(productos);
 
   return (
+    // Enviamos el 'setFilters' al componente de Header para luego enviarselo al componente de Filters (Prop Drilling).
     <>
-      <Header />
+      <Header changeFilters={setFilters} />
       <Products products={filteredProducts} />
     </>
   );

@@ -10,7 +10,7 @@ const Products = ({ products }) => {
           <li key={producto.id}>
             <img src={producto.image} alt={producto.title} />
             <div>
-              <strong>{producto.title}</strong> - {producto.price}
+              <strong>{producto.title}</strong> - ${producto.price}
             </div>
             <div>
               <button>
