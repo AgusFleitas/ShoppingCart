@@ -16,15 +16,16 @@ function App() {
       });
   }, []);
 
-  // Extraemos lo que nos retorna el Custom Hook (los productos filtrados y la función para actualizar los filtros).
-  const { filterProducts, setFilters } = useFilters();
+  // Extraemos lo que nos retorna el Custom Hook (los productos filtrados).
+  const { filterProducts } = useFilters();
+
   // Guardamos en una constante los productos filtrados ejecutando el método 'filterProducts' para pasarselo al componente de Products.
   const filteredProducts = filterProducts(productos);
 
   return (
     // Enviamos el 'setFilters' al componente de Header para luego enviarselo al componente de Filters (Prop Drilling).
     <>
-      <Header changeFilters={setFilters} />
+      <Header />
       <Products products={filteredProducts} />
     </>
   );
