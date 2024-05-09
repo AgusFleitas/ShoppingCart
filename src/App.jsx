@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useFilters } from "./hooks/useFilters";
 import Products from "./components/Products";
 import Header from "./components/Header";
+import Cart from "./components/Cart";
 
 function App() {
   // Estado para guardar los productos iniciales.
@@ -26,6 +27,7 @@ function App() {
     // Enviamos el 'setFilters' al componente de Header para luego enviarselo al componente de Filters (Prop Drilling).
     <>
       <Header />
+      <Cart />
       <Products products={filteredProducts} />
     </>
   );
