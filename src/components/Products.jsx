@@ -1,24 +1,42 @@
-/* eslint-disable react/prop-types */
-import { AddToCartIcon } from "./Icons";
-import './Products.css'
+import { AddToCartIcon, RemoveFromCartIcon } from "./Icons";
+import useCart from "../hooks/useCart";
+import "./Products.css";
 
 const Products = ({ products }) => {
+  const { cart, addToCart, removeFromCart } = useCart();
+
+  console.log(cart);
+
+  const checkProductInCart = (product) => {
+    return cart.some((item) => item.id === product.id);
+  };
+
   return (
-    <main className="products">
+    <main className='products'>
       <ul>
-        {products.map((producto) => (
-          <li key={producto.id}>
-            <img src={producto.image} alt={producto.title} />
-            <div>
-              <strong>{producto.title}</strong> - ${producto.price}
-            </div>
-            <div>
-              <button>
-                <AddToCartIcon />
-              </button>
-            </div>
-          </li>
-        ))}
+        {products.map((producto) => {
+          const isProductInCar = checkProductInCart(producto);
+
+          return (
+            <li key={producto.id}>
+              <img src={producto.image} alt={producto.title} />
+              <div>
+                <strong>{producto.title}</strong> - ${producto.price}
+              </div>
+              <div>
+                <button
+                  onClick={
+                    isProductInCar
+                      ? () => removeFromCart(producto)
+                      : () => addToCart(producto)
+                  }
+                >
+                  {isProductInCar ? <RemoveFromCartIcon /> : <AddToCartIcon />}
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </main>
   );

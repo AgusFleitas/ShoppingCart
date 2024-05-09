@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { createContext, useState } from "react";
 
 // 1. Crear el contexto. (Se exporta para que los componentes puedan acceder a él).
