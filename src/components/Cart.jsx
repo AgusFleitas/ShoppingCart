@@ -1,10 +1,30 @@
 import { useId } from "react";
 import { CartIcon, ClearCartIcon } from "./Icons";
+import useCart from "../hooks/useCart";
 
 import "./Cart.css";
 
 const Cart = () => {
   const cartCheckboxId = useId();
+
+  // Traemos el carrito y los métodos del Custom Hook.
+  const { cart, clearCart, addToCart } = useCart();
+
+  // Creamos el 'CartItem' para renderizarlo por cada producto que tengamos en el carrito.
+  function CartItem({ title, image, price, quantity, addToCart }) {
+    return (
+      <li>
+        <img src={image} alt={title} />
+        <div>
+          <strong>{title}</strong> - ${price}
+        </div>
+        <footer>
+          <small>Qty: {quantity}</small>
+        </footer>
+        <button onClick={addToCart}>+</button>
+      </li>
+    );
+  }
 
   return (
     <>
@@ -15,22 +35,15 @@ const Cart = () => {
 
       <aside className='cart'>
         <ul>
-          <li>
-            <img
-              src='https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg'
-              alt='product'
+          {cart.map((product) => (
+            <CartItem
+              key={product.id}
+              addToCart={() => addToCart(product)}
+              {...product}
             />
-            <div>
-              <strong>Fjallraven - Foldsack No. 1</strong> - $109.95
-            </div>
-
-            <footer>
-              <small>Qty: 1</small>
-            </footer>
-            <button>+</button>
-          </li>
+          ))}
         </ul>
-        <button>
+        <button onClick={() => clearCart()}>
           <ClearCartIcon />
         </button>
       </aside>

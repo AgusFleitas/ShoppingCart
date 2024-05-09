@@ -5,8 +5,6 @@ import "./Products.css";
 const Products = ({ products }) => {
   const { cart, addToCart, removeFromCart } = useCart();
 
-  console.log(cart);
-
   const checkProductInCart = (product) => {
     return cart.some((item) => item.id === product.id);
   };
@@ -25,6 +23,7 @@ const Products = ({ products }) => {
               </div>
               <div>
                 <button
+                  style={{ backgroundColor: isProductInCar && 'crimson'}}
                   onClick={
                     isProductInCar
                       ? () => removeFromCart(producto)
